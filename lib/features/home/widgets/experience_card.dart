@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:turismo_upala/features/experience/pages/experience_home_page.dart';
 
 class ExperienceCard extends StatelessWidget {
   const ExperienceCard({
@@ -84,7 +85,14 @@ class ExperienceCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 12),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ExperienceHomePage(),
+                            ),
+                          );
+                        },
                         icon: const Row(
                           children: [
                             Icon(

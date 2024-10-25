@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:turismo_upala/app/buttons/default_button.dart';
+import 'package:turismo_upala/core/utils/device.dart';
 
 class BannerHome extends StatelessWidget {
   const BannerHome({
@@ -8,6 +9,7 @@ class BannerHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(Device.media(context));
     return Container(
       alignment: Alignment.center,
       width: double.infinity,
@@ -17,18 +19,18 @@ class BannerHome extends StatelessWidget {
         color: Color(0xFF0B2347),
         image: DecorationImage(
           fit: BoxFit.cover,
-          image: NetworkImage(
-              'https://muniupala-my.sharepoint.com/:i:/g/personal/rmeza_muniupala_go_cr/EefkBW3a8TpEtH8EfnvkZ_AB0cU7LaRJzUBdQVaMsRs4VA?e=UOZ7bS'),
+          image: AssetImage('assets/images/banner.png'),
         ),
       ),
       child: Container(
-        width: double.infinity,
+        width: Device.media(context),
         constraints: const BoxConstraints(maxWidth: 1320),
         child: Wrap(
           alignment: WrapAlignment.spaceBetween,
           children: [
             Container(
-              constraints: const BoxConstraints(maxWidth: 378),
+              constraints: BoxConstraints(
+                  maxWidth: Device.media(context) <= 720 ? 720 : 378),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -66,19 +68,23 @@ class BannerHome extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
-              width: 600,
-              height: 500,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: AssetImage(
-                    'assets/images/banner2.png',
+            if (Device.media(context) > 720)
+              Container(
+                margin:
+                    EdgeInsets.only(top: Device.media(context) == 960 ? 80 : 0),
+                width: Device.media(context) == 960 ? 400 : 600,
+                height: Device.media(context) == 960 ? 300 : 480,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: AssetImage(
+                      'assets/images/banner2.png',
+                    ),
                   ),
                 ),
-              ),
-              constraints: const BoxConstraints(maxWidth: 578),
-            )
+                constraints: const BoxConstraints(maxWidth: 578),
+              )
           ],
         ),
       ),

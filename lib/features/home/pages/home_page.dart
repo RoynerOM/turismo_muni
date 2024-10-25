@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:turismo_upala/app/buttons/default_button.dart';
+import 'package:turismo_upala/core/utils/device.dart';
 import 'package:turismo_upala/features/home/widgets/banner.dart';
 import 'package:turismo_upala/features/home/widgets/experience_card.dart';
 import 'package:turismo_upala/features/home/widgets/service_card.dart';
@@ -16,6 +17,7 @@ class HomePage extends StatelessWidget {
             const BannerHome(),
             Container(
               padding: const EdgeInsets.fromLTRB(24, 40, 24, 40),
+              width: Device.media(context),
               constraints: const BoxConstraints(maxWidth: 1320),
               child: const Column(
                 children: [
@@ -72,6 +74,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
             Container(
+              width: Device.media(context),
               padding: const EdgeInsets.fromLTRB(24, 40, 24, 40),
               constraints: const BoxConstraints(maxWidth: 1320),
               child: const Column(
