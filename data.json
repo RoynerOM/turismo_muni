@@ -1,0 +1,18 @@
+
+{
+    "id":"",
+    "title":"",
+    "description":"",
+    "mainImageUrl":"",
+    "images":[
+        {
+            "id":"",
+            "url":"",
+            "footer":""
+        }
+    ],
+    "services":["",""],
+    "informaciones":["",""],
+    "contacto":[{"nombre":"value"}]
+}
+
