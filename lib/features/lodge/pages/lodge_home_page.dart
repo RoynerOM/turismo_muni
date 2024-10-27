@@ -1,38 +1,32 @@
+// ignore_for_file: no_leading_underscores_for_local_identifiers, unused_element
+
 import 'package:flutter/material.dart';
 import 'package:turismo_upala/core/utils/device.dart';
-import 'package:turismo_upala/features/experience/widgets/image_view.dart';
-import 'package:turismo_upala/features/experience/widgets/vinetas.dart';
+import 'package:turismo_upala/features/lodge/models/lodge_list_model.dart';
+import 'package:turismo_upala/features/lodge/widgets/image_view.dart';
+import 'package:turismo_upala/features/lodge/widgets/vinetas.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class ExperienceHomePage extends StatefulWidget {
-  const ExperienceHomePage({super.key});
+class LodgeHomePage extends StatelessWidget {
+  const LodgeHomePage({super.key, required this.model});
+  final LodgeModel model;
 
-  @override
-  State<ExperienceHomePage> createState() => _ExperienceHomePageState();
-}
-
-class _ExperienceHomePageState extends State<ExperienceHomePage> {
-  final pages = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            NavItem(
-              name: 'Inicio',
-              selected: true,
-              onPressed: () {},
+        toolbarHeight: 70,
+        title: Container(
+          height: 70,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8.0),
+            image: DecorationImage(
+              fit: BoxFit.contain,
+              image: NetworkImage(
+                model.logo,
+              ),
             ),
-            NavItem(
-              name: 'Nuestros Servicios',
-              onPressed: () {},
-            ),
-            NavItem(
-              name: 'Quienes Somos',
-              onPressed: () {},
-            ),
-          ],
+          ),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
@@ -46,45 +40,39 @@ class _ExperienceHomePageState extends State<ExperienceHomePage> {
             children: [
               SizedBox(
                 width: Device.media(context),
-                child: const Text(
-                  'Sendero al Cerro Utyum',
-                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.w700),
+                child: Text(
+                  model.title,
+                  style: const TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
               const SizedBox(height: 24),
               SizedBox(
                 width: Device.media(context),
-                child: const Text(
-                  'Para subir el Cerro Utyum, hay que llegar a la Comunidad de Olán, misma que pertenece al Territorio Indígena de Salitre y se ubica a unos 30 kilómetros de Buenos Aires Centro. El camino es en lastre y barro, por lo que se solo se puede acceder en vehículos de doble tracción o en motocicletas montañeras de alto cilindraje, preferiblemente. Aunque el camino es algo brusco, los paisajes que se aprecian en el recorrido, son muy hermosos, empieza con vistas de sabanas y el Río Ceibo en el Territorio Indígena de Ujarrás, y con forme se va ascendiendo, el clima y el tipo de bosque van variando.',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+                child: Text(
+                  model.description,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.normal,
+                  ),
                 ),
               ),
               const SizedBox(height: 60),
               SizedBox(
                 width: Device.media(context),
-                child: const Vinetas(
+                child: Vinetas(
                   title: 'Servicios',
-                  data: [
-                    "Hospedaje",
-                    "Tours de chocolate",
-                    "Laboratorio Cientifico",
-                    "Ecoturismo",
-                    "Tecnologia e innovación",
-                  ],
+                  data: model.services,
                 ),
               ),
               const SizedBox(height: 40),
               SizedBox(
                 width: Device.media(context),
-                child: const Vinetas(
+                child: Vinetas(
                   title: 'Información Adicional',
-                  data: [
-                    "Hospedaje",
-                    "Tours de chocolate",
-                    "Laboratorio Cientifico",
-                    "Ecoturismo",
-                    "Tecnologia e innovación",
-                  ],
+                  data: model.information,
                 ),
               ),
               const SizedBox(height: 40),
@@ -117,17 +105,17 @@ class _ExperienceHomePageState extends State<ExperienceHomePage> {
                       mainAxisSpacing: 30,
                       childAspectRatio: 0.8,
                     ),
-                    itemCount: 4,
+                    itemCount: model.gallery.length,
                     itemBuilder: (context, index) {
+                      final item = model.gallery[index];
                       return GestureDetector(
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (_) => const FullScreenImage(
-                                imageUrl:
-                                    'https://cdn.pixabay.com/photo/2023/08/24/00/58/horse-8209533_1280.jpg',
-                                footer: 'Pie de foto',
+                              builder: (_) => FullScreenImage(
+                                imageUrl: item.url,
+                                footer: item.footer,
                               ),
                             ),
                           );
@@ -137,11 +125,15 @@ class _ExperienceHomePageState extends State<ExperienceHomePage> {
                             Expanded(
                               child: Hero(
                                 tag: 'imageHero_$index',
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  child: Image.network(
-                                    'https://cdn.pixabay.com/photo/2023/08/24/00/58/horse-8209533_1280.jpg',
-                                    fit: BoxFit.cover,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: NetworkImage(
+                                        item.url,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -152,11 +144,13 @@ class _ExperienceHomePageState extends State<ExperienceHomePage> {
                                   const EdgeInsets.symmetric(vertical: 4.0),
                               width: double.infinity,
                               color: Colors.grey[300],
-                              child: const Text(
-                                'Pie de foto',
+                              child: Text(
+                                item.footer,
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 12, color: Colors.black87),
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.black87,
+                                ),
                               ),
                             ),
                           ],
@@ -186,35 +180,89 @@ class _ExperienceHomePageState extends State<ExperienceHomePage> {
                 width: Device.media(context),
                 child: Column(
                   children: [
-                    for (var x in ["Whatsapp", "Whatsapp", "Whatsapp"])
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Text(
-                              '$x:',
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            const SizedBox(width: 12),
-                            const Text(
-                              '75 metros este de la antiguo parque',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
+                    RowContact(
+                      title: "Telefono",
+                      value: model.contact.phone,
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        final Uri params = Uri(
+                          scheme: 'mailto',
+                          path: model.contact.email,
+                        );
+
+                        String url = params.toString();
+                        if (await canLaunch(url)) {
+                          await launch(url);
+                        } else {
+                          throw 'No se pudo abrir el correo: ${model.contact.email}';
+                        }
+                      },
+                      child: RowContact(
+                        title: "Correo",
+                        value: model.contact.email,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        void _launchURL(String url) async {
+                          if (await canLaunch(url)) {
+                            await launch(url);
+                          } else {
+                            throw 'No se pudo abrir el enlace: $url';
+                          }
+                        }
+                      },
+                      child: RowContact(
+                        title: "Sitio Web",
+                        value: model.contact.page,
+                      ),
+                    ),
+                    RowContact(
+                      title: "Ubicacion",
+                      value: model.contact.place,
+                    ),
                   ],
                 ),
               )
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class RowContact extends StatelessWidget {
+  const RowContact({
+    super.key,
+    required this.title,
+    required this.value,
+  });
+  final String title;
+  final String value;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        children: [
+          Text(
+            '$title:',
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Text(
+            value,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.normal,
+            ),
+          ),
+        ],
       ),
     );
   }

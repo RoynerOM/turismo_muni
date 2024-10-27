@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:turismo_upala/features/experience/pages/experience_home_page.dart';
+import 'package:turismo_upala/features/home/pages/services_pages.dart';
+import 'package:turismo_upala/features/lodge/pages/lodge_home_page.dart';
 import 'package:turismo_upala/features/home/pages/home_page.dart';
 
 class Index extends StatefulWidget {
@@ -11,7 +12,7 @@ class Index extends StatefulWidget {
 
 class _IndexState extends State<Index> {
   int _currentIndex = 0;
-  final pages = [HomePage(), Scaffold(), Scaffold()];
+  final pages = [const HomePage(), const ServicesPages(), const Scaffold()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(

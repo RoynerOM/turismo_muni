@@ -113,7 +113,7 @@ class ImageListPage extends StatelessWidget {
       ),
     );
   }
-
+/*
   void _showDeleteConfirmationDialog(BuildContext context, int imageId) {
     showDialog(
       context: context,
@@ -140,5 +140,5 @@ class ImageListPage extends StatelessWidget {
         );
       },
     );
-  }
+  }*/
 }

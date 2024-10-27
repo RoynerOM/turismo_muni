@@ -1,19 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
   <base href="$FLUTTER_BASE_HREF">
 
   <meta charset="UTF-8">
@@ -31,8 +18,60 @@
 
   <title>turismo_upala</title>
   <link rel="manifest" href="manifest.json">
+
+  <style>
+    /* Estilos para el preloader */
+    #preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #29a19a; /* Cambia el color de fondo según tu diseño */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999; /* Asegúrate de que esté en la parte superior */
+    }
+
+    .loader {
+      border: 8px solid #f3f3f3; /* Color del borde */
+      border-top: 8px solid #ffffff; /* Color del borde superior */
+      border-radius: 50%;
+      width: 50px; /* Tamaño del loader */
+      height: 50px; /* Tamaño del loader */
+      animation: spin 1s linear infinite; /* Animación */
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Ocultar el preloader inicialmente */
+    body.loading #preloader {
+      display: flex; /* Muestra el preloader */
+    }
+    
+    body.loaded #preloader {
+      display: none; /* Oculta el preloader */
+    }
+  </style>
 </head>
-<body>
+<body class="loading"> <!-- Clase para mostrar el preloader -->
+  <!-- Preloader -->
+  <div id="preloader">
+    <div class="loader"></div>
+  </div>
+
+  <script>
+    // Script para ocultar el preloader una vez que la aplicación esté lista
+    window.addEventListener('load', function () {
+      document.body.classList.remove('loading'); // Remueve la clase loading
+      document.body.classList.add('loaded'); // Añade la clase loaded
+    });
+  </script>
+
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

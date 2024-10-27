@@ -9,7 +9,6 @@ class BannerHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(Device.media(context));
     return Container(
       alignment: Alignment.center,
       width: double.infinity,

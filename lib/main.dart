@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turismo_upala/core/storage/storage.dart';
-import 'package:turismo_upala/features/experience/pages/experience_home_page.dart';
-import 'package:turismo_upala/features/home/pages/home_page.dart';
+import 'package:turismo_upala/features/attraction/bloc/attraction_bloc.dart';
+import 'package:turismo_upala/features/lodge/bloc/lodge_bloc.dart';
 import 'package:turismo_upala/features/image/bloc/image_bloc.dart';
 import 'package:turismo_upala/features/index.dart';
 import 'package:turismo_upala/injection.dart';
@@ -26,11 +26,16 @@ class MyApp extends StatelessWidget {
         BlocProvider<ImageBloc>(
           create: (context) => sl()..add(LoadImages()),
         ),
+        BlocProvider<LodgeBloc>(
+          create: (context) => sl()..add(LoadLodgeEvent()),
+        ),
+        BlocProvider<AttractionBloc>(
+          create: (context) => sl()..add(LoadAttractionEvent()),
+        ),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
         home: const Index(),

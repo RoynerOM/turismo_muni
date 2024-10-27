@@ -1,6 +1,15 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:turismo_upala/app/buttons/default_button.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:turismo_upala/app/footer/custom_footer.dart';
+//import 'package:turismo_upala/app/buttons/default_button.dart';
 import 'package:turismo_upala/core/utils/device.dart';
+import 'package:turismo_upala/core/utils/hexcolor.dart';
+import 'package:turismo_upala/features/attraction/bloc/attraction_bloc.dart';
+import 'package:turismo_upala/features/attraction/pages/form_page.dart';
 import 'package:turismo_upala/features/home/widgets/banner.dart';
 import 'package:turismo_upala/features/home/widgets/experience_card.dart';
 import 'package:turismo_upala/features/home/widgets/service_card.dart';
@@ -77,9 +86,9 @@ class HomePage extends StatelessWidget {
               width: Device.media(context),
               padding: const EdgeInsets.fromLTRB(24, 40, 24, 40),
               constraints: const BoxConstraints(maxWidth: 1320),
-              child: const Column(
+              child: Column(
                 children: [
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
@@ -91,8 +100,8 @@ class HomePage extends StatelessWidget {
                       )
                     ],
                   ),
-                  SizedBox(height: 24),
-                  Text(
+                  const SizedBox(height: 24),
+                  const Text(
                     'Descubre Upala a través de aventuras en la naturaleza, tours de vida silvestre y encuentros con la cultura local. Cada experiencia te conectará con la belleza y autenticidad de la región, creando momentos inolvidables en el corazón de Costa Rica.',
                     style: TextStyle(
                       fontSize: 16,
@@ -101,45 +110,60 @@ class HomePage extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 60),
-                    child: Wrap(
-                      alignment: WrapAlignment.center,
-                      spacing: 30,
-                      runSpacing: 30,
-                      children: [
-                        ExperienceCard(
-                          service: 'Hospedaje',
-                          descripction:
-                              '6 of the best Italian Carnivals beyond Venice, from north to south',
-                        ),
-                        ExperienceCard(
-                          service: 'Alimentación',
-                          descripction:
-                              '6 of the best Italian Carnivals beyond Venice, from north to south',
-                        ),
-                        ExperienceCard(
-                          service: 'Transporte',
-                          descripction:
-                              '6 of the best Italian Carnivals beyond Venice, from north to south',
-                        ),
-                        ExperienceCard(
-                          service: 'Transporte',
-                          descripction:
-                              '6 of the best Italian Carnivals beyond Venice, from north to south',
-                        ),
-                      ],
+                    padding: const EdgeInsets.only(top: 60),
+                    child: BlocBuilder<AttractionBloc, AttractionState>(
+                      builder: (context, state) {
+                        if (state.react == React.getLoading) {
+                          return Center(
+                            child: SpinKitDualRing(
+                              color: HexColor('#29a19a'),
+                              size: 60,
+                            ),
+                          );
+                        }
+                        return Wrap(
+                          alignment: WrapAlignment.center,
+                          spacing: 30,
+                          runSpacing: 30,
+                          children: [
+                            for (var x in state.attractions)
+                              ExperienceCard(
+                                service: x.category.toUpperCase(),
+                                descripction: x.title,
+                                imageUrl: x.imageUrl,
+                                json: state.lodges
+                                    .firstWhere((l) => l.id == x.lodgeId)
+                                    .toJson(),
+                              ),
+                          ],
+                        );
+                      },
                     ),
                   ),
-                  SizedBox(height: 80),
-                  DefaultButton(
+                  const SizedBox(height: 80),
+                  /*  const DefaultButton(
                     label: 'Descubre Más',
-                  )
+                  )*/
                 ],
               ),
             ),
+            const CustomFooter(),
           ],
         ),
       ),
+      floatingActionButton: (!kIsWeb)
+          ? FloatingActionButton(
+              child: const Icon(Icons.add),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AttractionsFormPage(),
+                  ),
+                );
+              },
+            )
+          : null,
     );
   }
 }
