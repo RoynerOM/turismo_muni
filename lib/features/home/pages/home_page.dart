@@ -1,26 +1,89 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:turismo_upala/app/footer/custom_footer.dart';
-//import 'package:turismo_upala/app/buttons/default_button.dart';
 import 'package:turismo_upala/core/utils/device.dart';
+import 'package:turismo_upala/core/utils/helpers.dart';
 import 'package:turismo_upala/core/utils/hexcolor.dart';
 import 'package:turismo_upala/features/attraction/bloc/attraction_bloc.dart';
 import 'package:turismo_upala/features/attraction/pages/form_page.dart';
+import 'package:turismo_upala/features/home/widgets/about_section.dart';
 import 'package:turismo_upala/features/home/widgets/banner.dart';
 import 'package:turismo_upala/features/home/widgets/experience_card.dart';
 import 'package:turismo_upala/features/home/widgets/service_card.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key, this.scrollToAbout = false});
+  final bool scrollToAbout;
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final ScrollController _scrollController = ScrollController();
+
+  final GlobalKey _aboutSectionKey = GlobalKey();
+
+  void _scrollToAboutSection() {
+    final context = _aboutSectionKey.currentContext;
+    if (context != null) {
+      Scrollable.ensureVisible(
+        context,
+        duration: const Duration(seconds: 1),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  void _scrollToTop() {
+    final context = _aboutSectionKey.currentContext;
+    if (context != null) {
+      _scrollController.animateTo(
+        0,
+        duration: const Duration(seconds: 1),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.scrollToAbout) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _scrollToAboutSection();
+      });
+    } else {
+      _scrollToTop();
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant HomePage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Si el nuevo valor de scrollToAbout es true y el antiguo es false, desplazarse
+    if (widget.scrollToAbout && !oldWidget.scrollToAbout) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _scrollToAboutSection();
+      });
+    } else {
+      _scrollToTop();
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: HexColor('F5F5DC'),
       body: SingleChildScrollView(
+        controller: _scrollController,
         child: Column(
           children: [
             const BannerHome(),
@@ -81,6 +144,13 @@ class HomePage extends StatelessWidget {
                   )
                 ],
               ),
+            ),
+            Container(
+              key: _aboutSectionKey,
+              padding: const EdgeInsets.fromLTRB(24, 40, 24, 40),
+              width: Device.media(context),
+              constraints: const BoxConstraints(maxWidth: 1320),
+              child: const QuienesSomosSection(),
             ),
             Container(
               width: Device.media(context),
@@ -164,6 +234,25 @@ class HomePage extends StatelessWidget {
               },
             )
           : null,
+    );
+  }
+}
+
+class DescriptionText extends StatelessWidget {
+  const DescriptionText({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return const Text(
+      '''En Upala, promovemos un turismo que invita a descubrir nuestras maravillas naturales y culturales de manera auténtica y respetuosa. Buscamos compartir la riqueza de nuestra tierra, desde ríos y volcanes hasta tradiciones y sabores locales, para que cada visitante se lleve una experiencia única y significativa.\n
+Nuestro objetivo es fomentar un turismo sostenible que contribuya al crecimiento de Upala, apoyando a las comunidades locales y preservando el entorno natural que nos define. Te invitamos a formar parte de esta visión y a descubrir todo lo que Upala tiene para ofrecer.''',
+      style: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.normal,
+      ),
+      textAlign: TextAlign.justify,
     );
   }
 }

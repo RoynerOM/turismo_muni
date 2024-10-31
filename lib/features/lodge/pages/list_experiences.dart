@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:turismo_upala/app/spinner/dual_ring.dart';
 import 'package:turismo_upala/features/lodge/bloc/lodge_bloc.dart';
-import 'package:turismo_upala/features/lodge/pages/lodge_form_page.dart';
+import 'package:turismo_upala/features/lodge/pages/add_lodge_page.dart';
 import 'package:turismo_upala/features/lodge/pages/lodge_home_page.dart';
 
 class ListExperiencesPage extends StatelessWidget {
@@ -85,7 +85,7 @@ class ListExperiencesPage extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const LodgeFormPage(),
+              builder: (context) => const AddLodgePage(),
             ),
           );
         },

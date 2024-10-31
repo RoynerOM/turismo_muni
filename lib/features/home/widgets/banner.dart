@@ -74,7 +74,6 @@ class BannerHome extends StatelessWidget {
                 width: Device.media(context) == 960 ? 400 : 600,
                 height: Device.media(context) == 960 ? 300 : 480,
                 decoration: const BoxDecoration(
-                  color: Colors.white,
                   image: DecorationImage(
                     fit: BoxFit.cover,
                     image: AssetImage(

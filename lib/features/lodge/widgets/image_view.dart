@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class FullScreenImage extends StatelessWidget {
@@ -22,9 +23,9 @@ class FullScreenImage extends StatelessWidget {
               Expanded(
                 child: Hero(
                   tag: 'imageHero_$imageUrl',
-                  child: Image.network(
-                    imageUrl,
+                  child: CachedNetworkImage(
                     fit: BoxFit.contain,
+                    imageUrl: imageUrl,
                   ),
                 ),
               ),

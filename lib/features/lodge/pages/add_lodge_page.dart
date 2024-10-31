@@ -6,14 +6,14 @@ import 'package:turismo_upala/features/image/pages/image_list.dart';
 import 'package:turismo_upala/features/lodge/bloc/lodge_bloc.dart';
 import 'package:turismo_upala/features/lodge/models/loadge_model.dart';
 
-class LodgeFormPage extends StatefulWidget {
-  const LodgeFormPage({super.key});
+class AddLodgePage extends StatefulWidget {
+  const AddLodgePage({super.key});
 
   @override
-  State<LodgeFormPage> createState() => _LodgeFormPageState();
+  State<AddLodgePage> createState() => _AddLodgePageState();
 }
 
-class _LodgeFormPageState extends State<LodgeFormPage> {
+class _AddLodgePageState extends State<AddLodgePage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
