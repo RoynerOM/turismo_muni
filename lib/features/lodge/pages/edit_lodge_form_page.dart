@@ -373,7 +373,7 @@ class _EditLodgePageState extends State<EditLodgePage> {
                                       onPressed: () {
                                         if (_formKey.currentState!.validate()) {
                                           // Crear objetos
-                                          Lodge lodge = Lodge(
+                                          /*   Lodge lodge = Lodge(
                                             title: _titleController.text,
                                             description:
                                                 _descriptionController.text,
@@ -386,7 +386,7 @@ class _EditLodgePageState extends State<EditLodgePage> {
                                             correo: _correoController.text,
                                             ubicacion:
                                                 _ubicacionController.text,
-                                          );
+                                          );*/
 
                                           /*
         // Caso de edición (actualización)
