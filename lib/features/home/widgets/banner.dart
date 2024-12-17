@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:turismo_upala/app/buttons/default_button.dart';
 import 'package:turismo_upala/core/utils/device.dart';
+import 'package:turismo_upala/features/home/pages/about_us.dart';
 
 class BannerHome extends StatelessWidget {
   const BannerHome({
@@ -61,7 +62,13 @@ class BannerHome extends StatelessWidget {
                   ),
                   const SizedBox(height: 24),
                   DefaultButton(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const AboutUs(),
+                          ));
+                    },
                     label: 'Conocer Más',
                   )
                 ],

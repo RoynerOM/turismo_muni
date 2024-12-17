@@ -5,7 +5,6 @@ import 'package:turismo_upala/features/attraction/bloc/attraction_bloc.dart';
 import 'package:turismo_upala/features/lodge/bloc/lodge_bloc.dart';
 import 'package:turismo_upala/features/image/bloc/image_bloc.dart';
 import 'package:turismo_upala/features/index.dart';
-import 'package:turismo_upala/features/lodge/models/loadge_model.dart';
 import 'package:turismo_upala/features/service/bloc/service_bloc.dart';
 import 'package:turismo_upala/injection.dart';
 
